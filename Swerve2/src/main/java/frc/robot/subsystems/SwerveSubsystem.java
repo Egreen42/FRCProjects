@@ -52,6 +52,8 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
+    private SwerveModule[] swerveModules = {frontLeft, frontRight, rearLeft, rearRight}; //array to hold the modules to eliminate redundant code when outputting numbers
+
     public SwerveSubsystem(){
         new Thread(() -> {
             try {
@@ -77,6 +79,30 @@ public class SwerveSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Robot Heading", getHeading());
+
+        /*
+         * This block of code will display the moduleInformation on the SmartDashboard, it is used for debugging and will be 
+         * commented out before competition use of the code
+         */
+
+         
+         for(int i = 0; i < swerveModules.length; i++){ //loop through the array
+            //Put the drive velocity on the Dashboard
+            SmartDashboard.putNumber("Module " + i + " drive velocity", swerveModules[i].getDriveVelocity());
+
+            //Put the turn velocity on the dashboard
+            SmartDashboard.putNumber("Module " + i + " turn velocity", swerveModules[i].getTurnVelocity());
+
+            //put the drive position on the dashboard
+            SmartDashboard.putNumber("Module " + i + " drive position", swerveModules[i].getDrivePosition());
+
+            //put the turn position on the dashboard
+            SmartDashboard.putNumber("Module " + i + " turn position", swerveModules[i].getTurnPosition());
+
+            //put the absolute encoder position on the dashboard in radians
+            SmartDashboard.putNumber("Module " + i + " absolute encoder position", swerveModules[i].getAbsoluteEncoderRad());
+        
+         }
     }
 
     public void stopModules(){

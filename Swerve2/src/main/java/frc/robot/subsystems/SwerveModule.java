@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -19,8 +20,8 @@ public class SwerveModule {
     private final CANSparkMax driveMotor;
     private final CANSparkMax turnMotor;
 
-    private final CANEncoder driveEncoder;
-    private final CANEncoder turnEncoder;
+    private final RelativeEncoder driveEncoder;
+    private final RelativeEncoder turnEncoder;
 
     private final PIDController turnPIDController;
 
