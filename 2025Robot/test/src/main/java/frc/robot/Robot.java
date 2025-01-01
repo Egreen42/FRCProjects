@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-
-import frc.robot.SubSystems.SwerveSubsystem;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -21,13 +18,8 @@ public class Robot extends TimedRobot {
    */
   public Robot() {}
 
-  private SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-
   @Override
-  public void robotPeriodic() {
-    Joystick driver = new Joystick(0);
-    swerveSubsystem.driveOriented(() -> driver.getRawAxis(0), () -> driver.getRawAxis(1), () -> driver.getRawAxis(4), () -> driver.getRawAxis(5));
-  }
+  public void robotPeriodic() {}
 
   @Override
   public void autonomousInit() {}
