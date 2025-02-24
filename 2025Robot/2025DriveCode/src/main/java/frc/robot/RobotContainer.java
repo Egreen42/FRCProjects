@@ -9,18 +9,35 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.manipulator.Extract;
-import frc.robot.commands.manipulator.Intake;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
-import frc.robot.subsystems.ManipulatorSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+
+
+
 import java.io.File;
 import swervelib.SwerveInputStream;
+
+/**
+ * Subsystems
+ */
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
+/**
+ * Commands
+ */
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -33,19 +50,18 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final CommandXboxController driverXbox = new CommandXboxController(0);
   final CommandXboxController manipXbox = new CommandXboxController(1);
+ 
   
 
   /**
    * The robot's subsystems are defined in this block
    */
   private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
-  private final ManipulatorSubsystem manipulator = new ManipulatorSubsystem();
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
-  /**
-   * The robot's commands are defined in this block
-   */
-  private final Intake intake = new Intake(manipulator);
-  private final Extract extract = new Extract(manipulator);
 
 
 
@@ -127,9 +143,28 @@ public class RobotContainer
       /**
        * Teleop Manipulator Controls
        */
+      manipXbox.y().whileTrue(Commands.run(elevatorSubsystem::moveElevatorUp));
+      manipXbox.a().whileTrue(Commands.run(elevatorSubsystem::moveElevatorDown));
 
-       manipXbox.a().whileTrue(intake); //Intake coral
-       manipXbox.y().whileTrue(extract); //Extract coral from the robot
+      manipXbox.rightBumper().whileTrue(Commands.run(intakeSubsystem::deployIntake));
+      manipXbox.leftBumper().whileTrue(Commands.run(intakeSubsystem::retractIntake));
+      manipXbox.rightTrigger().whileTrue(Commands.run(intakeSubsystem::runOuttake));
+      manipXbox.leftTrigger().whileTrue(Commands.run(intakeSubsystem::runIntake));
+
+      if (manipXbox.getRightY() <= -0.3){
+        Commands.run(armSubsystem::moveArmDown);
+      }
+      if (manipXbox.getRightY() >= 0.3){
+        Commands.run(armSubsystem::moveArmUp);
+      }
+
+      if (manipXbox.getLeftY() <= -0.3){
+        Commands.run(climbSubsystem::moveClimbDown);
+      }
+      if (manipXbox.getLeftY() >= 0.3){
+        Commands.run(climbSubsystem::moveClimbUp);
+      }
+       
   }
 
   /**
@@ -155,11 +190,8 @@ public class RobotContainer
 }
 
 //TODO: Add vision processing to the robot
-//TODO: Create subsystems for the elevator
-//TODO: Create subsystems for the climber
-//TODO: Create susbsystems for the vision
 //TODO: PID tune
-//TODO: Look into switching drive mode to continiously spin instead of to angle
 //TODO: Check autonomous intregration
 //TODO: Autonomous selector
+//TODO: Software limits on the all subsystems
 //TODO: Create a Dashboard, thinking NetworkTools

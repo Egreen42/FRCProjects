@@ -49,8 +49,38 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
 
+
+
+  /**
+   * Constants for motor IDs and reversal on the robot, does not inlcude the swerve drive motors
+   */
   public static class MotorConstants{
     public static final int manuipulatorMotorID = 0;
+
+    public static final int elevatorMotorID = 1;
+    public static final boolean elevatorMotorReversed = false;
+    public static final double elevatorUpSpeed = 0.5;
+    public static final double elevatorDownSpeed = -0.5;
+
+    public static final int intakeDeployMotorID = 2;
+    public static final boolean intakeDeployMotorReversed = false;
+    public static final double intakeDeployInSpeed = 0.5;
+    public static final double intakeDeployOutSpeed = -0.5;
+
+    public static final int intakeMotorID = 3;
+    public static final boolean intakeMotorReversed = false;
+    public static final double intakeInSpeed = 0.5;
+    public static final double intakeOutSpeed = -0.5;
+    
+    public static final int armMotorID = 4;
+    public static final boolean armMotorReversed = false;
+    public static final double armUpSpeed = 0.5;
+    public static final double armDownSpeed = -0.5;
+
+    public static final int climbMotorID = 5;
+    public static final boolean climbMotorReversed = false;
+    public static final double climbUpSpeed = 0.5;
+    public static final double climbDownSpeed = -0.5;
 
   }
 }
