@@ -139,27 +139,18 @@ public class RobotContainer
       /**
        * Teleop Manipulator Controls
        */
-      manipXbox.y().whileTrue(Commands.run(elevatorSubsystem::moveElevatorUp));
-      manipXbox.a().whileTrue(Commands.run(elevatorSubsystem::moveElevatorDown));
+      manipXbox.y().whileTrue(Commands.runOnce(elevatorSubsystem::moveElevatorUp).repeatedly());
+      manipXbox.a().whileTrue(Commands.runOnce(elevatorSubsystem::moveElevatorDown).repeatedly());
 
-      manipXbox.rightBumper().whileTrue(Commands.run(intakeSubsystem::deployIntake));
-      manipXbox.leftBumper().whileTrue(Commands.run(intakeSubsystem::retractIntake));
-      manipXbox.rightTrigger().whileTrue(Commands.run(intakeSubsystem::runOuttake));
-      manipXbox.leftTrigger().whileTrue(Commands.run(intakeSubsystem::runIntake));
+      manipXbox.rightBumper().whileTrue(Commands.runOnce(intakeSubsystem::deployIntake).repeatedly());
+      manipXbox.leftBumper().whileTrue(Commands.runOnce(intakeSubsystem::retractIntake).repeatedly());
+      manipXbox.rightTrigger().whileTrue(Commands.runOnce(intakeSubsystem::runOuttake).repeatedly());
+      manipXbox.leftTrigger().whileTrue(Commands.runOnce(intakeSubsystem::runIntake).repeatedly());
 
-      if (manipXbox.getRightY() <= -0.3){
-        Commands.run(armSubsystem::moveArmDown);
-      }
-      if (manipXbox.getRightY() >= 0.3){
-        Commands.run(armSubsystem::moveArmUp);
-      }
-
-      if (manipXbox.getLeftY() <= -0.3){
-        Commands.run(climbSubsystem::moveClimbDown);
-      }
-      if (manipXbox.getLeftY() >= 0.3){
-        Commands.run(climbSubsystem::moveClimbUp);
-      }
+      manipXbox.povUp().whileTrue(Commands.runOnce(armSubsystem::moveArmUp).repeatedly());
+      manipXbox.povDown().whileTrue(Commands.runOnce(armSubsystem::moveArmDown).repeatedly());
+      manipXbox.povLeft().whileTrue(Commands.runOnce(climbSubsystem::moveClimbDown).repeatedly());
+      manipXbox.povRight().whileTrue(Commands.runOnce(climbSubsystem::moveClimbUp).repeatedly());
        
   }
 
