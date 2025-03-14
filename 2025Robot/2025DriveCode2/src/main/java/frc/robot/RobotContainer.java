@@ -15,11 +15,14 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import swervelib.SwerveInputStream;
-
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(); 
@@ -63,8 +66,13 @@ private Command autoAlignRightCommand(Supplier<Double> driverYInput) {
 Command runElevator = elevatorSubsystem.runElevator(manipController::getRightY);
 Command runArm = armSubsystem.runArm(manipController::getLeftY);
 
+SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
+
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     configureBindings();
     swerveSubsystem.setDefaultCommand(driveFeildOrientatedAngularVelocity); //set drivebase to drive feild oriented
     elevatorSubsystem.setDefaultCommand(runElevator); //set elevator to run elevator using stick
@@ -89,10 +97,10 @@ Command runArm = armSubsystem.runArm(manipController::getLeftY);
   }
 
   public Command getAutonomousCommand() {
-    return swerveSubsystem.getAutonomousCommand("New Auto");
+    //return swerveSubsystem.getAutonomousCommand("New Auto"); //Manually select auto by typing here TESTED WORKIKNG
+    return autoChooser.getSelected(); //Get the selected from path planner chooser  NOT TESTED
   }
 }
 
-//TODO: MODULE OFFSETS IN PATHPLANNER AND SWERVE JSON
-//TODO: PATHPLANNER SETUP
-//TODO: AUTO CHOOSER
+
+

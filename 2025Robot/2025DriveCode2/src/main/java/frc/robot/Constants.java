@@ -22,7 +22,7 @@ public class Constants {
 
     //Intake Constants
     public static final int intakeMotorPort = 2;
-    public static final int intakeDeployPort = 3;
+    public static final int intakeDeployPort = 19;
     public static final boolean intakeInverted = false;
     public static final boolean intakeDeployInverted = false;
     public static final int intakeInSpeed = 1;
@@ -31,7 +31,7 @@ public class Constants {
     public static final double intakeDeployOutSpeed = -0.5;
 
     //Climb Constants
-    public static final int climbMotorPort = 4;
+    public static final int climbMotorPort = 20;
     public static final boolean climbInverted = false;
     public static final double climbDownSpeed = 0.5;
     public static final double climbUpSpeed = -0.5;
